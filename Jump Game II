@@ -1,0 +1,19 @@
+        int cnt = 0;  
+        int max_reach = 0;  
+        int current_end = 0;  
+        
+        for (int i = 0; i < nums.size() - 1; i++) {
+        
+            max_reach = max(max_reach, i + nums[i]);
+
+            if (i == current_end) {
+                cnt++;  
+                current_end = max_reach;  
+
+                if (current_end >= nums.size() - 1) {
+                    break;  
+                }
+            }
+        }
+
+        return cnt; 
