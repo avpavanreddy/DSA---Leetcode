@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n=gas.size();
+        for(int i=0;i<n;i++)
+        {
+            int j=i;
+            int tank=0+gas[j];
+            // travel to station i+1 (i++)
+            while(true)
+            {
+                tank=tank-cost[j];
+                if(tank<0)
+                {
+                    break;
+                }
+                j=(j+1)%n;
+                tank+=gas[j];
+                if(j==i)
+                    return i;
+            }
+        }
+        return -1;
+    }
+};
