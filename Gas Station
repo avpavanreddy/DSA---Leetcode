@@ -2,24 +2,28 @@ class Solution {
 public:
     int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
         int n=gas.size();
-        for(int i=0;i<n;i++)
+        int totalGas=0;
+        int totalCost=0;
+        int total=0;
+        int start_idx=0;
+        for(int i=0;i<n;i++)   
         {
-            int j=i;
-            int tank=0+gas[j];
-            // travel to station i+1 (i++)
-            while(true)
+            totalGas+=gas[i];
+            totalCost+=cost[i];
+        }
+        if(totalGas<totalCost)
+            return -1;
+         for(int i=0;i<gas.size();i++)
+        {
+            total += (gas[i]-cost[i]);
+
+            if(total<0)
             {
-                tank=tank-cost[j];
-                if(tank<0)
-                {
-                    break;
-                }
-                j=(j+1)%n;
-                tank+=gas[j];
-                if(j==i)
-                    return i;
+                total=0;
+                start_idx=i+1;
             }
         }
-        return -1;
+
+        return start_idx;
     }
 };
