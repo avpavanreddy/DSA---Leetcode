@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<int> missingRolls(vector<int>& rolls, int mean, int n) {
+        int m=rolls.size();
+        int sum=0;
+        
+        for(int i:rolls)
+            sum+=i;
+        
+        int missing_sum=(n+m)*mean - sum;
+        if(missing_sum/n>6)
+            return {};
+        int min_number=missing_sum/n;
+        if(min_number<=0)
+            return {};
+        if(min_number==6 && missing_sum%n!=0)
+            return {};
+        vector<int>ans;
+        int rem_num=missing_sum%n;
+          int num=n-rem_num;
+        while(num--)
+        {
+            ans.push_back(min_number);
+        }
+        while(rem_num--)
+        {
+            ans.push_back(min_number+1);
+        }
+        return ans;
+        
+    }
+};
