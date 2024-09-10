@@ -1,0 +1,79 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    int gcd(int a, int b) 
+{ 
+    // Everything divides 0 
+    if (a == 0) 
+        return b; 
+    if (b == 0) 
+        return a; 
+  
+    // base case 
+    if (a == b) 
+        return a; 
+  
+    // a is greater 
+    if (a > b) 
+        return gcd(a - b, b); 
+    return gcd(a, b - a); 
+} 
+  
+    ListNode* insertGreatestCommonDivisors(ListNode* head) {
+        int n=0;
+        ListNode* temp=head;
+        while(temp!=nullptr)
+        {
+            temp=temp->next;
+            n++;
+        }
+        if(n==1)
+            return head;
+        int i=1;
+        ListNode* ansNext = new ListNode();
+        ListNode* data=ansNext;
+        while(i<n)
+        {
+            ListNode* dummy = new ListNode();
+            data->next=dummy;
+            data=data->next;
+            i++;
+        }
+        data=ansNext->next;
+        temp=head;
+        ListNode* temp1=head->next;
+        while(data!=nullptr)
+        {
+            data->val=gcd(temp->val,temp1->val);
+            data=data->next;
+            temp=temp->next;
+            temp1=temp1->next;
+        }
+        
+        temp=head;
+        temp1=head->next;
+        data=ansNext->next;
+        temp=head;
+        temp1=head->next;
+        cout<<data->val<<" "<<temp->val<<" "<<temp1->val;
+        while(temp1!=nullptr)
+        {
+            ListNode* dummy = new ListNode(data->val);
+            dummy->next=temp1;
+            temp->next=dummy;
+            temp=dummy->next;
+            temp1=temp1->next;
+            data=data->next;
+        }
+        return head; 
+    }
+};
