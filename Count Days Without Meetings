@@ -1,15 +1,32 @@
 class Solution {
-    public int countDays(int days, int[][] meetings) {
-        int m=meetings.length;
-        int n=meetings[0].length;
-        Set<Integer> s = new HashSet<>();
-        for(int i=0;i<m;i++)
+public:
+    int countDays(int days, vector<vector<int>>& meetings) {
+        int m=meetings.size();
+        int n=meetings[0].size();
+        vector<vector<int>>intervals(meetings);
+    
+        sort(intervals.begin(),intervals.end(),[](const vector<int>&a,const vector<int>&b){
+            return a[0]<b[0];
+        });
+        int cnt=0;
+        int currentDayStart=intervals[0][0];
+        int currentDayEnd=intervals[0][1];
+        for(int i=1;i<m;i++)
         {
-            int start=meetings[i][0];
-            int end=meetings[i][1];
-            for(int j=start;j<=end;j++)
-            s.add(j);
+            int nextDayStart=intervals[i][0];
+            int nextDayEnd=intervals[i][1];
+            // in case of overlap
+            if(nextDayStart <= currentDayEnd)
+            {
+                currentDayEnd=max(currentDayEnd,nextDayEnd);
+            }
+            else{
+                 cnt+=(currentDayEnd-currentDayStart+1);
+                 currentDayStart=nextDayStart;
+                 currentDayEnd=nextDayEnd;
+            }
         }
-        return days-s.size();
+        cnt+=(currentDayEnd-currentDayStart+1);
+        return days-cnt;
     }
-}
+};
